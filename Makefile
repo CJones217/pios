@@ -1,9 +1,9 @@
 
 
-CC := aarch64-none-elf-gcc
-LD := aarch64-none-elf-ld
-OBJDUMP := aarch64-none-elf-objdump
-OBJCOPY := aarch64-none-elf-objcopy
+CC := gcc
+LD := ld
+OBJDUMP := objdump
+OBJCOPY := objcopy
 CONFIGS := -DCONFIG_HEAP_SIZE=4096
 
 CFLAGS := -O0 -ffreestanding -fno-pie -fno-stack-protector -g3 -Wall $(CONFIGS)
@@ -15,6 +15,7 @@ SDIR = src
 OBJS = \
 	boot.o \
 	kernel_main.o \
+	list.o \
 
 
 
@@ -30,7 +31,7 @@ $(ODIR)/%.o: $(SDIR)/%.s
 all: bin rootfs.img
 
 bin: $(OBJ)
-	$(LD) obj/* -Tkernel.ld -o kernel8.img
+	$(LD) obj/* -T kernel.ld -o kernel8.img
 	cp kernel8.img kernel8.elf
 	$(OBJCOPY) -O binary kernel8.img
 	size kernel8.elf
