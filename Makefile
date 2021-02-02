@@ -42,10 +42,11 @@ clean:
 	rm -f rootfs.img
 	rm -f kernel8.img
 	rm -f kernel8.elf
+	killall screen
 
 debug:
 	screen -S qemu -d -m qemu-system-aarch64 -machine raspi3 -kernel kernel8.img -hda rootfs.img -S -s -serial null -serial stdio -monitor none -nographic -k en-us 
-	TERM=xterm aarch64-none-elf-gdb -x gdb_init_prot_mode.txt
+	TERM=xterm gdb -x gdb_init_prot_mode.txt
 
 run:
 	qemu-system-aarch64 -machine raspi3 -kernel kernel8.img -hda rootfs.img -serial null -serial stdio -monitor none -nographic -k en-us
