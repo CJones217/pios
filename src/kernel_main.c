@@ -16,7 +16,6 @@ void kernel_main() {
     list_add(&a,&b);
     list_add(&b,&c);
     list_remove(&a);
-    int bpoint = 0;
 
     while(1){
     
@@ -27,10 +26,6 @@ void kernel_main() {
 
 void zero_bss(){
     char *begin_bss = &__bss_start;
-    //char *end_bss = &__bss_end; prob don't need this with for loop
-    begin_bss[0] = 0x0c;
-    //end_bss[1] =0x0b;
-    int breakpoint =0;
     for(int i=0;i<sizeof(begin_bss);i++){
         begin_bss[i] = 0;
     }
