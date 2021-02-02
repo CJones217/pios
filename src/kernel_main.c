@@ -8,11 +8,14 @@ extern long __bss_end;
 void kernel_main() {
     zero_bss();
 
-    struct list_element* head =NULL;
+    struct list_element c ={NULL, 3};
+    struct list_element b ={NULL, 2};
+    struct list_element a ={NULL,1};
+    struct list_element *head = &a;
 
-    list_add(&head, 1);
-    list_add(&head,3);
-    list_remove(&head);
+    list_add(&a,&b);
+    list_add(&b,&c);
+    list_remove(&a);
     int bpoint = 0;
 
     while(1){

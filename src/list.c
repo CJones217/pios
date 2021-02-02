@@ -3,16 +3,35 @@
 #include "list.h"
 
 /*list add is from https://www.codesdope.com/blog/article/inserting-a-new-node-in-a-linked-list-in-c/*/
-void list_add(struct list_element** f, int new_data){//check if this is right
+/*void list_add(struct list_element *f, int new_data){//check if this is right
     struct list_element *end;
     struct list_element *new_node;
     new_node->data=new_data;
     new_node->next=NULL;
+
     end=f;
-    while(end->next!=NULL){
-        end = end->next;
+    if(end->next==NULL){
+        end->next=new_node;
     }
-    end->next=new_node;
+
+    else{
+        
+        while(end->next){
+            end = end->next;
+        }
+        end->next=new_node;
+    }
+}*/
+
+void list_add(struct list_element *f, struct list_element *a){
+    struct list_element *end;
+    struct list_element *new;
+
+    end=f;
+    new=a;
+
+    end->next=new;
+
 
 }
 
