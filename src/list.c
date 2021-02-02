@@ -1,7 +1,7 @@
 #include<stdlib.h> /*for null*/
 #include "list.h"
 
-void list_add(struct list_element *f, struct list_element *a){
+void list_add(struct list_element *f, struct list_element *a){ //link first node to next node. Can change so it starts at head and adds at bottom
     struct list_element *end;
     struct list_element *new;
 
@@ -9,6 +9,7 @@ void list_add(struct list_element *f, struct list_element *a){
     new=a;
 
     end->next=new;
+    new->prev=end;
 
 
 }
