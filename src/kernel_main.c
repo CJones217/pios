@@ -8,15 +8,12 @@ extern long __bss_end;
 void kernel_main() {
     zero_bss();
 
-    struct list_element c = {NULL,2};
-    struct list_element b = {NULL,1};
-    struct list_element a = {NULL, 0};
-    struct list_element *head = &a;
+    struct list_element* head =NULL;
 
-    list_add(a, b);
-    list_add(b,c);
-    list_remove(b);
-    int z =0;
+    list_add(&head, 1);
+    list_add(&head,3);
+    list_remove(&head);
+    int bpoint = 0;
 
     while(1){
     
@@ -27,12 +24,11 @@ void kernel_main() {
 
 void zero_bss(){
     char *begin_bss = &__bss_start;
-    char *end_bss = &__bss_end;
+    //char *end_bss = &__bss_end; prob don't need this with for loop
     begin_bss[0] = 0x0c;
-    end_bss[1] =0x0b;
-    int x =0;
-    while(&begin_bss[x] != &end_bss){
-        begin_bss[x] = 0;
-        x++;
+    //end_bss[1] =0x0b;
+    int breakpoint =0;
+    for(int i=0;i<sizeof(begin_bss);i++){
+        begin_bss[i] = 0;
     }
 }
