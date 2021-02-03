@@ -15,6 +15,12 @@ void list_add(struct list_element *f, struct list_element *a){ //link first node
 }
 
 void list_remove(struct list_element *l){//check if it is in the middle of a list so you can make the previous node connect to the node connected to the soon to be deleted node?
-    
-    l->next=NULL;
+    struct list_element *bye;
+    struct list_element *replace;
+
+    bye=l;
+    replace=bye->next;
+
+    bye->prev->next=bye->next;    
+
 }

@@ -15,7 +15,7 @@ void kernel_main() {
 
     list_add(&a,&b);
     list_add(&b,&c);
-    list_remove(&a);
+    list_remove(&b);
 
     while(1){
     
