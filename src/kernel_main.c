@@ -28,7 +28,7 @@ void kernel_main() {
 
 void zero_bss(){
     char *begin_bss = &__bss_start;
-    for(int i=0;i<sizeof(begin_bss);i++){
+    for(int i=0;((&__bss_start)+i) < &__bss_end;i++){
         begin_bss[i] = 0;
     }
 }
