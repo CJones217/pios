@@ -1,11 +1,26 @@
 #include<stdlib.h>
 #include "list.h"
+#include "led.h"
 
 extern long __bss_start;
 extern long __bss_end;
 
+//zero bss segment
+void zero_bss(){
+    char *begin_bss = &__bss_start;
+    for(int i=0;((&__bss_start)+i) < &__bss_end;i++){
+        begin_bss[i] = 0;
+    }
+}
+
+//from in class activity that didn't work for anyone
+unsigned long get_timer_count(){
+    unsigned long *timer_count_register = 0xfe003004;
+    return *timer_count_register;
+}
 
 void kernel_main() {
+    /* this zeroes out bss and tests list
     zero_bss();
 
     struct list_element d ={NULL,NULL,9};
@@ -17,18 +32,15 @@ void kernel_main() {
     list_add(&a,&b);
     list_add(&b,&c);
     list_add(&b,&d);
-    list_remove(&b);
+    list_remove(&b);*/
+
+    delay(100);
 
     while(1){
-    
+        
     }
 
     
 }
 
-void zero_bss(){
-    char *begin_bss = &__bss_start;
-    for(int i=0;((&__bss_start)+i) < &__bss_end;i++){
-        begin_bss[i] = 0;
-    }
-}
+
