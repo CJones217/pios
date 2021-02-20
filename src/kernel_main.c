@@ -34,10 +34,13 @@ void kernel_main() {
     list_add(&b,&d);
     list_remove(&b);*/
 
-    delay(100);
+    led_init();
 
     while(1){
-        
+        led_on();
+        delay(10000);
+        led_off();
+        delay(10000);
     }
 
     
