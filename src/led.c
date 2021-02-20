@@ -20,18 +20,18 @@ uint32_t mask = 0xFFFFFF3F;
 //Configures the GPIO42 pin to act as an output
 void led_init(){
     *gpsel4 = *gpsel4 & mask;
-    *gpsel4 = *gpsel4 | 0x00000040;
+    *gpsel4 = *gpsel4 | 0x00000040;// number from blinky.pdf
     return;
 }
 
 //Turns the LED on by writing a 1 to GPIO pin 42
 void led_on(){
-    *gpset1 = *gpset1 | 0x00000400;
+    *gpset1 = *gpset1 | 0x00000400; //this should be gpio36 which is between 32 - 63 and should change gpset1
 }
 
 //Turns the ACT LED off by writint a 0 to GPIO pin 42
 void led_off(){
-    *gpclr1 = *gpclr1 | 0x00000400;
+    *gpclr1 = *gpclr1 | 0x00000400; ////this should be gpio36 which is between 32 - 63 and should change gpset1
 }
 
 //From Class. just a pause to create delay when blinking or whatever
