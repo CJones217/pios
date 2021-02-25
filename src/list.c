@@ -1,5 +1,6 @@
-#include<stdlib.h> /*for null*/
 #include "list.h"
+
+#define NULL (void*)0 //for null
 
 void list_add(struct list_element *f, struct list_element *a){ //link first node to next node. Can change so it starts at head and adds at bottom
     struct list_element *end;

@@ -1,6 +1,9 @@
-#include<stdlib.h>
 #include "list.h"
 #include "led.h"
+#include "rprintf.h"
+#include "serial.h"
+
+#define NULL (void*)0 //for null
 
 extern long __bss_start;
 extern long __bss_end;
@@ -34,13 +37,18 @@ void kernel_main() {
     list_add(&b,&d);
     list_remove(&b);*/
 
-    led_init();
+    esp_printf(putc, "Current Execution Level is %d\r\n", 'c');
 
-    while(1){
+    //led_init(); //blinky hw
+    
+    while(1){/* //blinky hw
         led_on();
         delay(10000);
         led_off();
         delay(10000);
+        */
+        delay(10000);
+        esp_printf(putc, "Current Execution Level is %d\r\n", 'j');
     }
 
     
