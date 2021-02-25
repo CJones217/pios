@@ -37,7 +37,7 @@ void kernel_main() {
     list_add(&b,&d);
     list_remove(&b);*/
 
-    esp_printf(putc, "Current Execution Level is %d\r\n", 'c');
+    esp_printf(putc, "ascii value of c is %d\r\n", 'c');
 
     //led_init(); //blinky hw
     
@@ -48,7 +48,7 @@ void kernel_main() {
         delay(10000);
         */
         delay(10000);
-        esp_printf(putc, "Current Execution Level is %d\r\n", 'j');
+        esp_printf(putc, "ascii value of j is %d\r\n", 'j');
     }
 
     
