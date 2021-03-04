@@ -50,10 +50,10 @@ void free_physical_pages(struct ppage *ppage_list){
     while(add->next!=NULL){
         add=add->next;
     }
-    add->next=head;
-    head->prev=add;
-    head=for_head;
-    
+    add->next=head; //makes the next of the end of the list the first node in the table
+    head->prev=add; //makes the first node in the tables prev equal to the last node inf the list we are adding
+    head=for_head; //makes head point to the first node in the table we are adding. 
+    //This should make it so head ->ppage_list_begin -> ppage_list_end -> free_list
 }
 
 void page_list_add(struct ppage *f, struct ppage *a){ //prob not finished
