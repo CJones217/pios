@@ -1,17 +1,24 @@
 #include "page.h"
+#include "list.h"
 
+#define NPAGES 128
 #define NULL (void*)0 //for null
-struct ppage physical_page_array[128]; //128 pages, each 2mb in length covers 256 megs of memory
+extern long __end;
+
+struct ppage physical_page_array[NPAGES]; //128 pages, each 2mb in length covers 256 megs of memory
 //array of ppages
-struct ppage *head; //maybe this doesn't go here
+struct ppage *head = NULL; //maybe this doesn't go here change this name
 
-void init_pfa_list(){
-
-    struct ppage a = physical_page_array[0];
-    head = &a;
+void init_pfa_list(){ //need to also add address pointer
+    void* p_address = 0x200000;
+    //((unsigned long)&__end & (0x200000 - 1)) +0x200000;
+    struct ppage *a = &physical_page_array[0];
+    head = a;
     int i;
-    for(i=1;i<128;i++){// change so a = physical_page_array[i]
-        struct ppage b = physical_page_array[i];
+    for(i=1;i<NPAGES;i++){// change so a = physical_page_array[i]
+        struct ppage *b = &physical_page_array[i];
+        physical_page_array[i].physical_addr = p_address; //(struct lsit_element*) *
+        p_address += 0x200000;
         page_list_add(&a, &b);
         a=b;
     }
@@ -62,7 +69,8 @@ void page_list_add(struct ppage *f, struct ppage *a){ //prob not finished
 
     end=f;
     new=a;
-
+    //change so it only adds at the end
+    //check for null
     end->next->prev=new;
     new->next=end->next;
     end->next=new;

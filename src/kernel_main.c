@@ -2,11 +2,13 @@
 #include "led.h"
 #include "rprintf.h"
 #include "serial.h"
+#include "page.h"
 
 #define NULL (void*)0 //for null
 
 extern long __bss_start;
 extern long __bss_end;
+extern struct ppage *head; //change this name head is a bad name do free_list
 
 //zero bss segment
 void zero_bss(){
@@ -24,7 +26,8 @@ unsigned long get_timer_count(){
 
 void kernel_main() {
 
-    esp_printf(putc, "ascii value of c is %d\r\n", 'c');
+    init_pfa_list();
+    //esp_printf(putc, "ascii value of c is %d\r\n", 'c');
 
     //led_init(); //blinky hw
     
@@ -34,8 +37,8 @@ void kernel_main() {
         led_off();
         delay(10000);
         */
-        delay(10000);
-        esp_printf(putc, "ascii value of j is %d\r\n", 'j');
+        //delay(10000);
+        //esp_printf(putc, "ascii value of j is %d\r\n", 'j');
     }
 
     
