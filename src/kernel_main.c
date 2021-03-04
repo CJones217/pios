@@ -23,19 +23,6 @@ unsigned long get_timer_count(){
 }
 
 void kernel_main() {
-    /* this zeroes out bss and tests list
-    zero_bss();
-
-    struct list_element d ={NULL,NULL,9};
-    struct list_element c ={NULL, NULL, 3};
-    struct list_element b ={NULL, NULL, 2};
-    struct list_element a ={NULL, NULL,1};
-    struct list_element *head = &a;
-
-    list_add(&a,&b);
-    list_add(&b,&c);
-    list_add(&b,&d);
-    list_remove(&b);*/
 
     esp_printf(putc, "ascii value of c is %d\r\n", 'c');
 
@@ -53,5 +40,20 @@ void kernel_main() {
 
     
 }
+
+    /* this zeroes out bss and tests list
+    put into kernel_main()
+    zero_bss();
+
+    struct list_element d ={NULL,NULL,9};
+    struct list_element c ={NULL, NULL, 3};
+    struct list_element b ={NULL, NULL, 2};
+    struct list_element a ={NULL, NULL,1};
+    struct list_element *head = &a;
+
+    list_add(&a,&b);
+    list_add(&b,&c);
+    list_add(&b,&d);
+    list_remove(&b);*/
 
 
