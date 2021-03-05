@@ -8,7 +8,7 @@
 
 extern long __bss_start;
 extern long __bss_end;
-extern struct ppage *head; //change this name head is a bad name do free_list
+extern struct ppage *free_pages;
 
 //zero bss segment
 void zero_bss(){
@@ -27,6 +27,49 @@ unsigned long get_timer_count(){
 void kernel_main() {
 
     init_pfa_list();
+    struct ppage *pages = free_pages;
+    struct ppage *new_pages = free_pages;
+    delay(10000);
+    esp_printf(putc, "address of page0 is %x\r\n", pages->physical_addr);
+    pages = pages->next;
+    delay(10000);
+    esp_printf(putc, "address of page1 is %x\r\n", pages->physical_addr);
+    pages = pages->next;
+    delay(10000);
+    esp_printf(putc, "address of page2 is %x\r\n", pages->physical_addr);
+    pages = pages->next;
+    delay(10000);
+    esp_printf(putc, "address of page3 is %x\r\n", pages->physical_addr);
+    delay(10000);
+    
+    unsigned int get_ma_pages=3;
+    struct ppage *openstuff = allocate_physical_pages(get_ma_pages);
+    esp_printf(putc, "address of openstuff0 is %x\r\n", openstuff->physical_addr);
+    openstuff = openstuff->next;
+    delay(10000);
+    esp_printf(putc, "address of openstuff1 is %x\r\n", openstuff->physical_addr);
+    openstuff = openstuff->next;
+    delay(10000);
+    esp_printf(putc, "address of openstuff2 is %x\r\n", openstuff->physical_addr);
+    delay(10000);
+
+    esp_printf(putc, "now we do free physical pages %d\r\n", 'j');
+    esp_printf(putc, "address of newoage before free pages is %x\r\n", new_pages->physical_addr);
+    delay(10000);
+    free_physical_pages(openstuff);
+    
+    delay(10000);
+    esp_printf(putc, "address of page0 is %x\r\n", new_pages->physical_addr);
+    new_pages = new_pages->next;
+    delay(10000);
+    esp_printf(putc, "address of page1 is %x\r\n", new_pages->physical_addr);
+    new_pages = new_pages->next;
+    delay(10000);
+    esp_printf(putc, "address of page2 is %x\r\n", new_pages->physical_addr);
+    new_pages = new_pages->next;
+    delay(10000);
+    esp_printf(putc, "address of page3 is %x\r\n", new_pages->physical_addr);
+
     //esp_printf(putc, "ascii value of c is %d\r\n", 'c');
 
     //led_init(); //blinky hw
@@ -39,6 +82,12 @@ void kernel_main() {
         */
         //delay(10000);
         //esp_printf(putc, "ascii value of j is %d\r\n", 'j');
+        
+        /*
+        esp_printf(putc, "address of page0 is %x\r\n", pages->physical_addr);
+        pages = pages->next;
+        delay(10000);
+        */
     }
 
     
