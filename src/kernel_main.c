@@ -26,9 +26,10 @@ unsigned long get_timer_count(){
 
 void kernel_main() {
 
+    //start of page testing
     init_pfa_list();
     struct ppage *pages = free_pages;
-    struct ppage *new_pages = free_pages;
+    esp_printf(putc, "address of freepages head is %x\r\n", pages->physical_addr);
     delay(10000);
     esp_printf(putc, "address of page0 is %x\r\n", pages->physical_addr);
     pages = pages->next;
@@ -44,6 +45,7 @@ void kernel_main() {
     
     unsigned int get_ma_pages=3;
     struct ppage *openstuff = allocate_physical_pages(get_ma_pages);
+    struct ppage *openstuff_head = openstuff;
     esp_printf(putc, "address of openstuff0 is %x\r\n", openstuff->physical_addr);
     openstuff = openstuff->next;
     delay(10000);
@@ -52,12 +54,13 @@ void kernel_main() {
     delay(10000);
     esp_printf(putc, "address of openstuff2 is %x\r\n", openstuff->physical_addr);
     delay(10000);
-
+    esp_printf(putc, "address of freepages head is %x\r\n", free_pages->physical_addr);
     esp_printf(putc, "now we do free physical pages %d\r\n", 'j');
-    esp_printf(putc, "address of newoage before free pages is %x\r\n", new_pages->physical_addr);
-    delay(10000);
-    free_physical_pages(openstuff);
     
+    delay(10000);
+    free_physical_pages(openstuff_head);
+    struct ppage *new_pages = free_pages;
+    esp_printf(putc, "address of freepages head after free pages is %x\r\n", free_pages->physical_addr);
     delay(10000);
     esp_printf(putc, "address of page0 is %x\r\n", new_pages->physical_addr);
     new_pages = new_pages->next;
@@ -69,25 +72,10 @@ void kernel_main() {
     new_pages = new_pages->next;
     delay(10000);
     esp_printf(putc, "address of page3 is %x\r\n", new_pages->physical_addr);
-
-    //esp_printf(putc, "ascii value of c is %d\r\n", 'c');
-
-    //led_init(); //blinky hw
+    //end of page testing
     
-    while(1){/* //blinky hw
-        led_on();
-        delay(10000);
-        led_off();
-        delay(10000);
-        */
-        //delay(10000);
-        //esp_printf(putc, "ascii value of j is %d\r\n", 'j');
+    while(1){
         
-        /*
-        esp_printf(putc, "address of page0 is %x\r\n", pages->physical_addr);
-        pages = pages->next;
-        delay(10000);
-        */
     }
 
     
@@ -106,6 +94,20 @@ void kernel_main() {
     list_add(&a,&b);
     list_add(&b,&c);
     list_add(&b,&d);
-    list_remove(&b);*/
+    list_remove(&b);
+    */
+
+    /* this tests the led
+    led_init(); //add this before while loop in kernel_main
+    led_on(); //add this and delays and led_off in the while loop of kernel_main
+    delay(10000);
+    led_off();
+    delay(10000);
+    */
+
+    /* this test esp_printf add to the while loop of kernel_main
+    delay(10000);
+    esp_printf(putc, "ascii value of j is %d\r\n", 'j');
+    */
 
 
