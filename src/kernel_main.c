@@ -3,6 +3,7 @@
 #include "rprintf.h"
 #include "serial.h"
 #include "page.h"
+#include "mmu.h"
 
 #define NULL (void*)0 //for null
 
@@ -25,7 +26,10 @@ unsigned long get_timer_count(){
 }
 
 void kernel_main() {
-
+    mapPages(NULL, NULL);
+    zero_bss();
+    //mmu_on();
+    //call map pages a couple times then load pages
     //start of page testing
     init_pfa_list();
     struct ppage *pages = free_pages;

@@ -20,6 +20,10 @@ OBJS = \
 	rprintf.o \
 	serial.o \
 	page.o \
+	mmusetup.o \
+	mmu.o \
+	
+	
 	
 
 
