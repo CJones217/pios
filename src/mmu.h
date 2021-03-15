@@ -1,5 +1,7 @@
-
-
+//#include<stdint.h>
+#define O_IO_SPACE         0x00000040
+#define PAGE_DESCRIPTOR_ATTRIBUTE_DEVICE_MMIO 1
+#define PAGE_DESCRIPTOR_ATTRIBUTE_NORMAL_MEMORY 0
 
 // L1 table structure
 struct table_descriptor_stage1 {
@@ -45,7 +47,7 @@ struct page_descriptor_stage1 {
 }__attribute__((packed));
 
 
-void mapPages(void *vaddr, void *paddr);
+void *mapPages(void *vaddr, void *paddr, unsigned int options);
 int loadPageTable(struct table_descriptor_stage1 *L1table);
 
 

@@ -1,6 +1,6 @@
 
 
-
+//#include<stdint.h>
 #include "mmu.h"
 
 
@@ -20,20 +20,27 @@ struct page_descriptor_stage1 L2table[512] __attribute__((aligned(4096))); //pag
 */
 
 
-void mapPages(void *vaddr, void *paddr) {
+void *mapPages(void *vaddr, void *paddr, unsigned int options) {
+    
     unsigned int L2tableIndex = ((unsigned int)vaddr >> 21) & 0x1ff;
     unsigned int L1tableIndex = ((unsigned int)vaddr >> 30) & 0x1ff;
 
 
+    if(options & O_IO_SPACE) { // Caller requested IO map //from neil
+            L2table[L2tableIndex].attrindx = PAGE_DESCRIPTOR_ATTRIBUTE_DEVICE_MMIO; // Used for IO
+    } else {
+            L2table[L2tableIndex].attrindx = PAGE_DESCRIPTOR_ATTRIBUTE_NORMAL_MEMORY; // Used for RAM
+    }
+
     L1table[L1tableIndex].type = 3;
     L1table[L1tableIndex].next_lvl_table = ((unsigned int)&L2table[0])>>12;
 
-    L2table[L2tableIndex].attrindx = 0; // Normal memory, not memory-mapped IO 1 for IO
+    //L2table[L2tableIndex].attrindx = 0; // Normal memory, not memory-mapped IO 1 for IO
     L2table[L2tableIndex].type = 1; // Pointing to memory page
     L2table[L2tableIndex].sh = 3; // Set inner sharable
     L2table[L2tableIndex].ap = 0; // Access permission, kernel RW
     L2table[L2tableIndex].af = 1; // ??
-    L2table[L2tableIndex].output_addr = (unsigned int)paddr >> 5; // looked on the arm website for T0SZ in tcr_el1
+    L2table[L2tableIndex].output_addr = (unsigned int)paddr >> 17; // looked on the arm website for T0SZ in tcr_el1
 }
 
 

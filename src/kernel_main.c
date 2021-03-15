@@ -26,7 +26,9 @@ unsigned long get_timer_count(){
 }
 
 void kernel_main() {
-    mapPages(NULL, NULL);
+    mapPages(NULL, NULL,0);
+    mapPages((void*)0x3f200000, 0x3f200000, O_IO_SPACE);
+    mapPages((void*)0x3f000000, 0x3f000000, O_IO_SPACE);
     zero_bss();
     //mmu_on();
     //call map pages a couple times then load pages
