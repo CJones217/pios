@@ -20,6 +20,11 @@ OBJS = \
 	rprintf.o \
 	serial.o \
 	page.o \
+	clibfuncs.o \
+	delays.o \
+	fat.o \
+	sd.o \
+
 	
 
 

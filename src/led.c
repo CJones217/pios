@@ -33,14 +33,3 @@ void led_off(){
     *gpclr1 = *gpclr1 | 0x00000400; ////this should be gpio36 which is between 32 - 63 and should change gpset1
 }
 
-//From Class. just a pause to create delay when blinking or whatever
-void delay(unsigned int d){
-    unsigned int i, j;
-
-    for(i=0;i<0x7f;i++){
-        for(j=0;j<d;j++){
-            asm("nop");
-        }
-    }
-
-}
