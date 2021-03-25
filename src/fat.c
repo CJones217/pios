@@ -29,14 +29,14 @@ void fatInit(){
         i++;
     }
     esp_printf(putc, "\n");
-    // Print out some of the elements of the BIOS information block using rprintf...
+    // Print out some of the elements of the BIOS information block using rprintf... done
 
     if(bs->boot_signature == 0xaa55){
         esp_printf(putc,"boot signature is: %x\r\n", 0xaa55);
     } else{
         esp_printf(putc,"BOOT SIGNATURE IS NOT: %x\r\n", 0xaa55);
     }
-    // TODO: Validate the boot signature = 0xaa55
+    // TODO: Validate the boot signature = 0xaa55 done
 
     if(strcmp(fs_type_value, "FAT12")==0){
         esp_printf(putc,"file system type is FAT12\r\n");
@@ -48,9 +48,9 @@ void fatInit(){
         }
         esp_printf(putc,"\n");
     }
-    // TODO: Validate fs_type = "FAT12" using strcmp
+    // TODO: Validate fs_type = "FAT12" using strcmp done
 
-
+    
     // TODO: Read FAT table from the SD card into array fat_table
     // TODO: Compute root_sector as:
     //       num_fat_tables + num_sectors_per_fat + num_reserved_sectors + num_hidden_sectors
