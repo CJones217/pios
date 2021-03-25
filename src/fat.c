@@ -13,6 +13,7 @@ unsigned int root_sector;
 
 
 void fatInit(){
+    sd_init();
     sd_readblock(0, bootSector, 1); // Read sector 0 from disk drive into bootSector array
     bs = bootSector; // Point boot_sector struct to the boot sector so we can read fields
 
@@ -40,7 +41,12 @@ void fatInit(){
     if(strcmp(fs_type_value, "FAT12")==0){
         esp_printf(putc,"file system type is FAT12\r\n");
     }else{
-        esp_printf(putc,"file system type IS NOT FAT12\r\n");
+        esp_printf(putc,"file system type IS NOT FAT12 it is \r\n");
+        int b;
+        for(b=0;b<j;b++){
+            esp_printf(putc,"%c", fs_type_value[b]);
+        }
+        esp_printf(putc,"\n");
     }
     // TODO: Validate fs_type = "FAT12" using strcmp
 

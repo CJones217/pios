@@ -3,6 +3,7 @@
 #include "rprintf.h"
 #include "serial.h"
 #include "page.h"
+#include "fat.h"
 
 #define NULL (void*)0 //for null
 
@@ -26,7 +27,46 @@ unsigned long get_timer_count(){
 
 void kernel_main() {
 
-    //start of page testing
+    fatInit();
+    
+    while(1){
+        
+    }
+
+    
+}
+
+    /* this zeroes out bss and tests list
+    put into kernel_main()
+    zero_bss();
+
+    struct list_element d ={NULL,NULL,9};
+    struct list_element c ={NULL, NULL, 3};
+    struct list_element b ={NULL, NULL, 2};
+    struct list_element a ={NULL, NULL,1};
+    struct list_element *head = &a;
+
+    list_add(&a,&b);
+    list_add(&b,&c);
+    list_add(&b,&d);
+    list_remove(&b);
+    */
+
+    /* this tests the led
+    led_init(); //add this before while loop in kernel_main
+    led_on(); //add this and delays and led_off in the while loop of kernel_main
+    delay(10000);
+    led_off();
+    delay(10000);
+    */
+
+    /* this test esp_printf add to the while loop of kernel_main
+    delay(10000);
+    esp_printf(putc, "ascii value of j is %d\r\n", 'j');
+    */
+
+    /* put in main
+        //start of page testing
     init_pfa_list();
     struct ppage *pages = free_pages;
     esp_printf(putc, "address of freepages head is %x\r\n", pages->physical_addr);
@@ -73,41 +113,4 @@ void kernel_main() {
     delay(10000);
     esp_printf(putc, "address of page3 is %x\r\n", new_pages->physical_addr);
     //end of page testing
-    
-    while(1){
-        
-    }
-
-    
-}
-
-    /* this zeroes out bss and tests list
-    put into kernel_main()
-    zero_bss();
-
-    struct list_element d ={NULL,NULL,9};
-    struct list_element c ={NULL, NULL, 3};
-    struct list_element b ={NULL, NULL, 2};
-    struct list_element a ={NULL, NULL,1};
-    struct list_element *head = &a;
-
-    list_add(&a,&b);
-    list_add(&b,&c);
-    list_add(&b,&d);
-    list_remove(&b);
     */
-
-    /* this tests the led
-    led_init(); //add this before while loop in kernel_main
-    led_on(); //add this and delays and led_off in the while loop of kernel_main
-    delay(10000);
-    led_off();
-    delay(10000);
-    */
-
-    /* this test esp_printf add to the while loop of kernel_main
-    delay(10000);
-    esp_printf(putc, "ascii value of j is %d\r\n", 'j');
-    */
-
-
