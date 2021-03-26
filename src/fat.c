@@ -38,10 +38,10 @@ void fatInit(){
     }
     // TODO: Validate the boot signature = 0xaa55 done
 
-    if(strcmp(fs_type_value, "FAT12")==0){
-        esp_printf(putc,"file system type is FAT12\r\n");
+    if(strcmp(fs_type_value, "FAT16")==0){
+        esp_printf(putc,"file system type is FAT16\r\n");
     }else{
-        esp_printf(putc,"file system type IS NOT FAT12 it is \r\n");
+        esp_printf(putc,"file system type IS NOT FAT16 it is \r\n");
         int b;
         for(b=0;b<j;b++){
             esp_printf(putc,"%c", fs_type_value[b]);
@@ -57,7 +57,7 @@ void fatInit(){
 
 }
 
-struct file fatOpen(){
+struct file fatOpen(struct file* file, char*filename){
 
     //return some file
 }
