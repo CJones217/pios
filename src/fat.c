@@ -59,6 +59,10 @@ void fatInit(){
 
     esp_printf(putc, " \n");
     esp_printf(putc, " \n");
+    //esp_printf(putc,"num_fat_tables: %d\n",bs->num_fat_tables);
+    //esp_printf(putc,"num_sectors_per_fat: %d\n",bs->num_sectors_per_fat);
+    //esp_printf(putc,"num_reserved_sectors: %d\n",bs->num_reserved_sectors);
+    //esp_printf(putc,"num_hidden_sectors: %d\n",bs->num_hidden_sectors);
 
     unsigned int root_sector_value = bs->num_fat_tables * bs->num_sectors_per_fat + bs->num_reserved_sectors + bs->num_hidden_sectors;
     
@@ -72,9 +76,13 @@ void fatInit(){
     esp_printf(putc, "file size is is %x\n", rde->file_size);
      esp_printf(putc,"FILE NAME I HOPE\n");
     int c;
-    for(c=0;b<15;c++){
+    for(c=0;c<15;c++){
         esp_printf(putc, "%c\n", rde->file_name[c]);
     }
+
+    unsigned int fat_offset = rde->cluster * 2;
+    unsigned int ent_offset = fat_offset % SECTOR_SIZE;
+    unsigned short table_value = *(unsigned short*)&fat_table[ent_offset];
     
 
     // TODO: Compute root_sector as:
