@@ -10,7 +10,8 @@ struct boot_sector *bs;
 char bootSector[512];
 char fat_table[8*SECTOR_SIZE];
 unsigned int root_sector;
-struct root_directory_entry *rde;
+unsigned int first_data_sector;
+
 
 
 void fatInit(){
@@ -64,11 +65,12 @@ void fatInit(){
     //esp_printf(putc,"num_reserved_sectors: %d\n",bs->num_reserved_sectors);
     //esp_printf(putc,"num_hidden_sectors: %d\n",bs->num_hidden_sectors);
 
-    unsigned int root_sector_value = bs->num_fat_tables * bs->num_sectors_per_fat + bs->num_reserved_sectors + bs->num_hidden_sectors;
+    root_sector = (bs->num_fat_tables * bs->num_sectors_per_fat) + bs->num_reserved_sectors + bs->num_hidden_sectors;
+
+    first_data_sector = bs->num_reserved_sectors + (bs->num_fat_tables * bs->num_sectors_per_fat) + ((bs->num_root_dir_entries * 32)+ (SECTOR_SIZE - 1)) / SECTOR_SIZE;
     
     
-    
-    sd_readblock(root_sector_value, root_sector, 1);
+    /*sd_readblock(root_sector_value, root_sector, 8);
     rde = root_sector;
 
     esp_printf(putc,"root sector has been read in\n");
@@ -76,14 +78,17 @@ void fatInit(){
     esp_printf(putc, "file size is is %x\n", rde->file_size);
      esp_printf(putc,"FILE NAME I HOPE\n");
     int c;
-    for(c=0;c<15;c++){
-        esp_printf(putc, "%c\n", rde->file_name[c]);
+    for(c=0;c<8;c++){
+        esp_printf(putc, " %c", rde->file_name[c]);
     }
+    esp_printf(putc," \n");*/
 
-    unsigned int fat_offset = rde->cluster * 2;
-    unsigned int ent_offset = fat_offset % SECTOR_SIZE;
-    unsigned short table_value = *(unsigned short*)&fat_table[ent_offset];
-    
+
+
+    //unsigned int fat_offset = rde->cluster * 2;
+    //unsigned int ent_offset = fat_offset % SECTOR_SIZE;
+    //unsigned short table_value = *(unsigned short*)&fat_table[ent_offset];
+    //esp_printf(putc, "table value %d\n", table_value);
 
     // TODO: Compute root_sector as:
     //       num_fat_tables + num_sectors_per_fat + num_reserved_sectors + num_hidden_sectors
@@ -93,11 +98,66 @@ void fatInit(){
 
 }
 
-struct file fatOpen(struct file* file, char*filename){
+void fatOpen(struct file* file, char*filename){
+    unsigned int sector_value = root_sector;
+    esp_printf(putc, "sector value %d", sector_value);
+    unsigned int put_in_rde[SECTOR_SIZE];
+    unsigned int total_entries = bs->num_root_dir_entries;
+    struct root_directory_entry *rde;
+    char file_buffer[10];
+    sd_readblock(root_sector, put_in_rde , 1);
+    rde = put_in_rde;
 
-    //return some file
+    /*int c;
+    for (c=0; filename[c]!="\0";c++) { //this will turn the filename into all caps for FAT
+            char temp = filename[c];
+            filename[c] = toupper(temp);
+        }*/
+
+    int i;
+    for( i=0;i<total_entries;i++){//iterate through each root directory entry
+        int j;
+        for( j=0; j<NAME_SIZE;j++){
+            if(rde->file_name[j]!=' '&&rde->file_name[j]!=0)
+                file_buffer[j]=rde->file_name[j];
+            else{
+                file_buffer[j]=0;
+            }
+        }
+        file_buffer[NAME_SIZE-1]=0;
+         esp_printf(putc, "buffer: %s\n",file_buffer);
+         esp_printf(putc, "file name: %s\n",rde->file_name);
+        
+        if(strcmp(file_buffer,filename)==0){
+            file->rde = *rde;
+            file->start_cluster=rde->cluster;
+            esp_printf(putc, "it Worked!\n");
+            break;
+            
+        }
+        rde++;
+    }
+
+
 }
 
-void fatRead(){
+void fatRead(struct file* file, char* buffer[], unsigned int bytes_to_read){
 
+    unsigned int cluster = file-> start_cluster;
+    unsigned int total_sectors_per_cluster = bs->num_sectors_per_cluster;
+    unsigned int data_sector = first_data_sector + ((file->rde.cluster - 2) * total_sectors_per_cluster);
+    char* results = buffer;
+    char cluster_buffer[SECTOR_SIZE];
+
+    sd_readblock(data_sector,cluster_buffer,1);
+
+    //esp_printf(putc, "file name: %s\n", file->rde.file_name);
+    
+    int i;
+    for(int i=0;i<bytes_to_read;i++){
+        *results++ = cluster_buffer[i];
+    }
+
+
+    
 }

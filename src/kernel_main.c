@@ -28,6 +28,23 @@ unsigned long get_timer_count(){
 void kernel_main() {
 
     fatInit();
+
+    struct file the_file;
+    char buffer[20];
+
+    fatOpen(&the_file,"MOM");
+    esp_printf(putc, "the file has been opened\n");
+    fatRead(&the_file,buffer,15);
+    esp_printf(putc, "the file has been read?\n");
+    esp_printf(putc, "file name: %s\n", the_file.rde.file_name);
+
+    int count=0;
+    while(count<20){
+        esp_printf(putc, "%c ",buffer[count]);
+        count++;
+    }
+    esp_printf(putc, " \n");
+    esp_printf(putc, "the buffer has been printed\n");
     
     while(1){
         

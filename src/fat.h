@@ -6,6 +6,7 @@
 
 #define CLUSTER_SIZE 4096
 #define SECTOR_SIZE 512
+#define NAME_SIZE 8
 #define SECTORS_PER_CLUSTER (CLUSTER_SIZE/SECTOR_SIZE)
 
 #define FILE_ATTRIBUTE_SUBDIRECTORY 0x10
@@ -81,8 +82,8 @@ struct file {
 };
 
 void fatInit();
-struct file fatOpen(struct file* file, char* filename);
-void fatRead();
+void fatOpen(struct file* file, char* filename);
+void fatRead(struct file* file, char* buffer[], unsigned int bytes_to_read);
 
 
 #endif
